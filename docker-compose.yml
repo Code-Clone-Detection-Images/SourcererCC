@@ -6,9 +6,11 @@ services:
       dockerfile: Dockerfile
       context: .
     volumes:
-      - $LINK_FROM/:/home/sourcerercc-user/data:rw
+      # uses the '.' if not given, so there is no hardcoding necessary
+      - ${LINK_FROM:-.}/:/home/sourcerercc-user/data:rw
     environment:
       CC_ARG: $SOURCERER_CC_INPUT
+      MYSQL_HOST: ${MYSQL_HOST:-mysql-db-sourcerercc}
     links:
       - mysql-db-sourcerercc
     depends_on:

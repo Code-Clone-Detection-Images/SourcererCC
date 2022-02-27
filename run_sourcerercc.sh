@@ -61,15 +61,21 @@ cat NODE_*/output8.0/query_* > results.pairs || echo "" > "$HOME/results.pairs"
 
 echo "Step 3: import the database"
 
-echo "     3.1: prepare the database"
-mysql --user=user --password=p --host mysql-db-sourcerercc < /initialize.sql
+echo "     3.1: configure docker host"
+# we patch the db.py so that it uses mysql-db-sourcerercc as host, not localhost
+# this is done not with docker build so we can make use of MYSQL_HOST
+sed -i "s|host *= *'localhost'|host='$MYSQL_HOST'|" "$SOURCERERCC_HOME/tokenizers/file-level/db-importer/db.py"
+sed -i "s|host *= *'localhost'|host='$MYSQL_HOST'|" "$SOURCERERCC_HOME/tokenizers/file-level/db-importer/clone_finder.py"
 
-echo "     3.2: import the database"
+echo "     3.2: prepare the database"
+mysql --user=user --password=p --host "$MYSQL_HOST" < /initialize.sql
+
+echo "     3.3: import the database"
 python "$SOURCERERCC_HOME/tokenizers/file-level/db-importer/mysql-import.py" files user p oopslaDB "$HOME/input" "$HOME/results.pairs"
 
-echo "     3.3: find clones in the database"
+echo "     3.4: find clones in the database"
 python "$SOURCERERCC_HOME/tokenizers/file-level/db-importer/clone_finder.py" user p oopslaDB
 
-echo "     3.4: query the database"
-mysql --user=user --password=p --host mysql-db-sourcerercc < /query.sql
+echo "     3.5: query the database"
+mysql --user=user --password=p --host "$MYSQL_HOST" < /query.sql
 # # TODO: output differs
