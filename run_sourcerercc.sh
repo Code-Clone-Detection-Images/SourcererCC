@@ -1,20 +1,11 @@
 #!/usr/bin/env bash
 
-
 echo "Step 1: run the tokenizer"
-echo "     1.1: update the ini file"
-
-# update the list from which to draw the projects from
-sed -i "s|FILE_projects_list =.*|FILE_projects_list=$HOME/input.lst|" "$SOURCERERCC_HOME/tokenizers/file-level/config.ini"
-
-# update the File_extensions of the language to support java files as well:
-sed -i "s|File_extensions =.*|File_extensions = .cpp .hpp .c .h .java|" "$SOURCERERCC_HOME/tokenizers/file-level/config.ini"
-
 # no longer necessary, i use a copy to allow further modifications
-# echo "     1.2: clean up the input folder according to rules"
+# echo "     1.1: clean up the input folder according to rules"
 # rm -rf bookkeeping_projs files_stats files_tokens logs
 
-echo "     1.2: zipping all projects as necessary"
+echo "     1.1: zipping all projects as necessary"
 function folder_only_zips {
    for f in $(ls "$1"); do
       echo $(file $1/$f)
@@ -40,11 +31,15 @@ fi
 # we do need a list as it has been configured with the config. ini file
 # with -d -1 we get full paths
 # https://stackoverflow.com/questions/27340307/list-file-using-ls-command-in-linux-with-full-path
-# echo "$(ls -d -1 "$HOME"/input/*)" > "$HOME/input.lst"
+# we do only produce one if there is not already one (the vm uses a preconfigured list which we keep
+# so we can deterministically validate the resulsts)
+if [ ! -r "$HOME/input.lst" ]; then
+   echo "$(ls -d -1 "$HOME"/input/*)" > "$HOME/input.lst"
+fi
 
 # cat "$HOME/input.lst"
 
-echo "     1.3: running the tokenizer"
+echo "     1.2: running the tokenizer"
 cd "$HOME/input"
 python3 "$SOURCERERCC_HOME/tokenizers/file-level/tokenizer.py" zip
 
@@ -66,22 +61,15 @@ cat NODE_*/output8.0/query_* > results.pairs || echo "" > "$HOME/results.pairs"
 
 echo "Step 3: import the database"
 
-echo "     3.1: configure docker host"
-# we patch the db.py so that it uses mysql-db-sourcerercc as host, not localhost
-sed -i "s|host *= *'localhost'|host='mysql-db-sourcerercc'|" "$SOURCERERCC_HOME/tokenizers/file-level/db-importer/db.py"
-sed -i "s|host *= *'localhost'|host='mysql-db-sourcerercc'|" "$SOURCERERCC_HOME/tokenizers/file-level/db-importer/clone_finder.py"
-
-echo "     3.2: prepare the database"
-# TODO: move some of this to the container building...
-# pass password p
+echo "     3.1: prepare the database"
 mysql --user=user --password=p --host mysql-db-sourcerercc < /initialize.sql
 
-echo "     3.3: import the database"
+echo "     3.2: import the database"
 python "$SOURCERERCC_HOME/tokenizers/file-level/db-importer/mysql-import.py" files user p oopslaDB "$HOME/input" "$HOME/results.pairs"
 
-echo "     3.4: find clones in the database"
+echo "     3.3: find clones in the database"
 python "$SOURCERERCC_HOME/tokenizers/file-level/db-importer/clone_finder.py" user p oopslaDB
 
-echo "     3.5: query the database"
+echo "     3.4: query the database"
 mysql --user=user --password=p --host mysql-db-sourcerercc < /query.sql
 # # TODO: output differs

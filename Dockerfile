@@ -27,6 +27,15 @@ RUN rm -rf master.zip
 
 RUN chown -R -c sourcerercc-user "$SOURCERERCC_HOME"
 
+# we patch the ini file
+# update the list from which to draw the projects from
+# AND: update the File_extensions of the language to support java files as well:
+RUN sed -i "s|FILE_projects_list =.*|FILE_projects_list=$HOME/input.lst|" "$SOURCERERCC_HOME/tokenizers/file-level/config.ini" && sed -i "s|File_extensions =.*|File_extensions = .cpp .hpp .c .h .java|" "$SOURCERERCC_HOME/tokenizers/file-level/config.ini"
+
+# we patch the db.py so that it uses mysql-db-sourcerercc as host, not localhost
+RUN sed -i "s|host *= *'localhost'|host='mysql-db-sourcerercc'|" "$SOURCERERCC_HOME/tokenizers/file-level/db-importer/db.py" && sed -i "s|host *= *'localhost'|host='mysql-db-sourcerercc'|" "$SOURCERERCC_HOME/tokenizers/file-level/db-importer/clone_finder.py"
+
+
 COPY run_sourcerercc.sh initialize.sql query.sql /
 COPY projects.txt "$HOME/input.lst"
 RUN chown -c sourcerercc-user "$HOME/input.lst"
