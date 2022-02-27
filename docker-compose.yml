@@ -9,8 +9,12 @@ services:
       # uses the '.' if not given, so there is no hardcoding necessary
       - ${LINK_FROM:-.}/:/home/sourcerercc-user/data:rw
     environment:
+      # has to be given, is the folder to source from
       CC_ARG: $SOURCERER_CC_INPUT
+      # if non is given, we use the linked container
       MYSQL_HOST: ${MYSQL_HOST:-mysql-db-sourcerercc}
+      # if none is given, it will be generated automatically
+      PROJECTS_LIST: ${PROJECT_LIST:-}
     links:
       - mysql-db-sourcerercc
     depends_on:

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "[VARDUMP] CC_ARG=$CC_ARG; MYSQL_HOST=$MYSQL_HOST; PROJECTS_LIST=$PROJECTS_LIST;"
+
 echo "Step 1: run the tokenizer"
 # no longer necessary, i use a copy to allow further modifications
 # echo "     1.1: clean up the input folder according to rules"
@@ -33,6 +35,10 @@ fi
 # https://stackoverflow.com/questions/27340307/list-file-using-ls-command-in-linux-with-full-path
 # we do only produce one if there is not already one (the vm uses a preconfigured list which we keep
 # so we can deterministically validate the resulsts)
+if [[ -z "$PROJECTS_LIST" ]]; then
+   cp "$PROJECTS_LIST" "$HOME/input.lst"
+fi
+
 if [ ! -r "$HOME/input.lst" ]; then
    echo "$(ls -d -1 "$HOME"/input/*)" > "$HOME/input.lst"
 fi

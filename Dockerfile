@@ -32,9 +32,7 @@ RUN chown -R -c sourcerercc-user "$SOURCERERCC_HOME"
 # AND: update the File_extensions of the language to support java files as well:
 RUN sed -i "s|FILE_projects_list =.*|FILE_projects_list=$HOME/input.lst|" "$SOURCERERCC_HOME/tokenizers/file-level/config.ini" && sed -i "s|File_extensions =.*|File_extensions = .cpp .hpp .c .h .java|" "$SOURCERERCC_HOME/tokenizers/file-level/config.ini"
 
-COPY run_sourcerercc.sh initialize.sql query.sql /
-COPY projects.txt "$HOME/input.lst"
-RUN chown -c sourcerercc-user "$HOME/input.lst"
+COPY run_sourcerercc.sh sql/initialize.sql sql/query.sql /
 USER sourcerercc-user
 
 ENTRYPOINT [ "/bin/bash", "/run_sourcerercc.sh" ]
