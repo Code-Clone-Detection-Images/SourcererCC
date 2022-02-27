@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  alpine-sourcerercc:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    volumes:
+      - $LINK_FROM/:/home/sourcerercc-user/data:rw
+    environment:
+      CC_ARG: $SOURCERER_CC_INPUT
+    links:
+      - mysql-db-sourcerercc
+    depends_on:
+      - mysql-db-sourcerercc
+  mysql-db-sourcerercc:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: 'oopslaDB'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'p'
+      MYSQL_ROOT_PASSWORD: 'p'
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    command:
+      - "--max-allowed-packet=68157440"

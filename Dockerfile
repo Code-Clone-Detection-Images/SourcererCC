@@ -6,9 +6,10 @@ ENV SOURCERERCC_HOME="$HOME/SourcererCC-master"
 
 RUN addgroup --gid 1000 sourcerercc-user && adduser --uid 1000 --ingroup sourcerercc-user --home "$HOME" --disabled-password sourcerercc-user
 
-RUN apk add --update --no-cache bash wget zip unzip python3 file
+RUN apk add --update --no-cache bash wget zip unzip python3 python2 file mysql-client
 RUN python3 -m ensurepip
-RUN ln -s /usr/bin/python3 /usr/bin/python && ln -s /usr/bin/pip3 /usr/bin/pip
+RUN python2 -m ensurepip
+RUN pip2 install mysql-connector
 
 # ANT
 ENV APACHE_ANT_VERSION=1.10.12
@@ -26,7 +27,9 @@ RUN rm -rf master.zip
 
 RUN chown -R -c sourcerercc-user "$SOURCERERCC_HOME"
 
-COPY run_sourcerercc.sh /
+COPY run_sourcerercc.sh initialize.sql query.sql /
+COPY projects.txt "$HOME/input.lst"
+RUN chown -c sourcerercc-user "$HOME/input.lst"
 USER sourcerercc-user
 
 ENTRYPOINT [ "/bin/bash", "/run_sourcerercc.sh" ]
