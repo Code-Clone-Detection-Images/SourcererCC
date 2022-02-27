@@ -35,8 +35,9 @@ fi
 # https://stackoverflow.com/questions/27340307/list-file-using-ls-command-in-linux-with-full-path
 # we do only produce one if there is not already one (the vm uses a preconfigured list which we keep
 # so we can deterministically validate the resulsts)
-if [[ -z "$PROJECTS_LIST" ]]; then
-   cp "$PROJECTS_LIST" "$HOME/input.lst"
+if [[ ! -z "$PROJECTS_LIST" ]]; then
+   echo "using project list given by var"
+   cp "/home/sourcerercc-user/data/$PROJECTS_LIST" "$HOME/input.lst"
 fi
 
 if [ ! -r "$HOME/input.lst" ]; then

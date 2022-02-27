@@ -14,7 +14,7 @@ services:
       # if non is given, we use the linked container
       MYSQL_HOST: ${MYSQL_HOST:-mysql-db-sourcerercc}
       # if none is given, it will be generated automatically
-      PROJECTS_LIST: ${PROJECT_LIST:-}
+      PROJECTS_LIST: ${PROJECTS_LIST:-}
     links:
       - mysql-db-sourcerercc
     depends_on:

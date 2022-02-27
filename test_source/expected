@@ -1,0 +1,19 @@
+[36malpine-sourcerercc_1    |[0m      3.5: query the database
+[36malpine-sourcerercc_1    |[0m projectId	projectPath	projectUrl
+[36malpine-sourcerercc_1    |[0m 1	/home/sourcerercc-user/data/test_source/projects/caskdata-cdap.zip	NULL
+[36malpine-sourcerercc_1    |[0m 2	/home/sourcerercc-user/data/test_source/projects/FenixEdu-fenixedu-academic.zip	NULL
+[36malpine-sourcerercc_1    |[0m 3	/home/sourcerercc-user/data/test_source/projects/FenixEdu-fenix.zip	NULL
+[36malpine-sourcerercc_1    |[0m 4	/home/sourcerercc-user/data/test_source/projects/gradle-gradle.zip	NULL
+[36malpine-sourcerercc_1    |[0m 5	/home/sourcerercc-user/data/test_source/projects/griddynamics-yhadoop-common.zip	NULL
+[36malpine-sourcerercc_1    |[0m 6	/home/sourcerercc-user/data/test_source/projects/JetBrains-intellij-community.zip	NULL
+[36malpine-sourcerercc_1    |[0m 7	/home/sourcerercc-user/data/test_source/projects/JetBrains-kotlin.zip	NULL
+[36malpine-sourcerercc_1    |[0m 8	/home/sourcerercc-user/data/test_source/projects/liferay-liferay-portal.zip	NULL
+[36malpine-sourcerercc_1    |[0m 10	/home/sourcerercc-user/data/test_source/projects/openmicroscopy-openmicroscopy.zip	NULL
+[36malpine-sourcerercc_1    |[0m 11	/home/sourcerercc-user/data/test_source/projects/stalexxx-gadmin-factory.zip	NULL
+[36malpine-sourcerercc_1    |[0m 12	/home/sourcerercc-user/data/test_source/projects/nguillaumin-slick2d-maven.zip	NULL
+[36malpine-sourcerercc_1    |[0m 13	/home/sourcerercc-user/data/test_source/projects/Relliker-SpaceInvaders.zip	NULL
+[36malpine-sourcerercc_1    |[0m id	cloneId	cloneClonedFiles	cloneTotalFiles	cloneCloningPercent	hostId	hostAffectedFiles	hostTotalFiles	hostAffectedPercent
+[36malpine-sourcerercc_1    |[0m 1	2	3456	3456	100.000	3	3456	3456	100.000
+[36malpine-sourcerercc_1    |[0m 2	12	335	372	90.050	13	335	2232	15.010
+[36msourcerercc_alpine-sourcerercc_1 exited with code 0
+[0mAborting on container exit...
