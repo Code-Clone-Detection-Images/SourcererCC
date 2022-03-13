@@ -18,11 +18,12 @@ function folder_only_zips {
    return 0
 }
 
-folder_only_zips $CC_ARG
+folder_only_zips "$CC_ARG"
 if [ $? -ne 0 ]; then
    echo "         > Zipping necessary"
    mkdir "$HOME/input"
    for f in $(ls "$CC_ARG"); do
+      echo "$HOME/input/$f.zip"
       zip "$HOME/input/$f.zip" "$CC_ARG/$f"
    done
 else
@@ -63,8 +64,9 @@ python2 controller.py
 
 echo "     2.3: group the pairs"
 cd "$SOURCERERCC_HOME/clone-detector"
-# do not fail if there ar eno clones
-cat NODE_*/output8.0/query_* > results.pairs || echo "" > "$HOME/results.pairs"
+# do not fail if there are no clones
+# ls NODE_*/output8.0
+cat NODE_*/output8.0/query_* > results.pairs || touch "$HOME/results.pairs"
 
 echo "Step 3: import the database"
 
@@ -85,4 +87,5 @@ python "$SOURCERERCC_HOME/tokenizers/file-level/db-importer/clone_finder.py" use
 
 echo "     3.5: query the database"
 mysql --user=user --password=p --host "$MYSQL_HOST" < /query.sql
-# # TODO: output differs
+
+[ -s "$HOME/results.pairs" ] || echo "[Warning] No result pairs found!"
