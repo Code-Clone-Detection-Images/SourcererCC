@@ -1,5 +1,8 @@
 # SourcererCC
 
+Note, that SourcererCC is licensed under the [GNU General Public License v3.0](https://github.com/Mondego/SourcererCC/blob/master/LICENSE).
+
+
 Run [SourcererCC](https://github.com/Mondego/SourcererCC) on a supplied folder.
 
 **Build** using the [`makefile`](makefile).
