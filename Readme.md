@@ -1,6 +1,6 @@
 # SourcererCC
 
-Note, that SourcererCC is licensed under the [GNU General Public License v3.0](https://github.com/Mondego/SourcererCC/blob/master/LICENSE).
+Note that SourcererCC is licensed under the [GNU General Public License v3.0](https://github.com/Mondego/SourcererCC/blob/master/LICENSE).
 
 
 Run [SourcererCC](https://github.com/Mondego/SourcererCC) on a supplied folder.
@@ -17,8 +17,7 @@ make
 ./run.sh java-small
 ```
 
-After running, the program will output the results of the sql database.
+After running, the program will output the results of the SQL database.
 
 > As the enumeration of SourcererCC depends on the order it visits projects,
 > the [run-script](run.sh) allows another argument, a file that contains the list of projects in visiting-order (see [`projects.txt`](test_source/projects.txt) as an example it is used to reproduce the results of the SourcererCC-paper).
->
